@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Button from "../UI/Button";
+import { useGlobalContext } from "../../context/context";
 
 export default function App() {
+  const { dispatch } = useGlobalContext();
   const [time, setTime] = useState({
     sec: 0,
     min: 0,
@@ -56,6 +58,10 @@ export default function App() {
     });
   };
 
+  const showModal = () => {
+    dispatch({ type: "SHOW_MODAL_SAVE", payload: time });
+  };
+
   return (
     <div className="App">
       <h1 className="text-center">HH:mm:ss</h1>
@@ -73,7 +79,7 @@ export default function App() {
         <Button onClickHandelar={pauseOrResume} disabled={isPaused}>
           Pause
         </Button>
-        <Button>Save</Button>
+        <Button onClickHandelar={showModal}>Save</Button>
       </div>
     </div>
   );
