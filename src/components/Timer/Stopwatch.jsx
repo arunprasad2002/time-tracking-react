@@ -3,12 +3,7 @@ import Button from "../UI/Button";
 import { useGlobalContext } from "../../context/context";
 
 export default function App() {
-  const { dispatch } = useGlobalContext();
-  const [time, setTime] = useState({
-    sec: 0,
-    min: 0,
-    hr: 0,
-  });
+  const { dispatch, state, time, setTime } = useGlobalContext();
 
   const [isStart, setIstart] = useState(false);
   const [isPaused, setIsPaused] = useState(true);

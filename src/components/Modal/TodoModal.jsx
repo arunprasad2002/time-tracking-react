@@ -5,8 +5,10 @@ export default function TodoModal({ showModal }) {
   const {
     dispatch,
     state: { todos },
+    setTime,
   } = useGlobalContext();
   const [todo, setTodo] = useState("");
+
   return (
     <>
       {showModal ? (
@@ -59,6 +61,11 @@ export default function TodoModal({ showModal }) {
                           payload: todos,
                         });
                         setTodo("");
+                        setTime({
+                          sec: 0,
+                          min: 0,
+                          hr: 0,
+                        });
                       }
                     }}
                   >
