@@ -11,16 +11,18 @@ export default function App() {
   });
 
   const [isStart, setIstart] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isPaused, setIsPaused] = useState(true);
   const [isSave, setIsSvae] = useState(true);
+  const [statrtTimer, setStartTimer] = useState(false);
 
   const [intervalId, setIntervalId] = useState();
 
   useEffect(() => {
-    if (isPaused) {
+    if (statrtTimer) {
+      setIsPaused(false);
       setIsSvae(false);
     }
-  }, [isPaused, isStart]);
+  }, [statrtTimer]);
 
   const updateTimer = () => {
     setTime((prev) => {
@@ -47,6 +49,7 @@ export default function App() {
       setIntervalId(id);
       setIstart(true);
       setIsPaused(false); // Set isPaused to false when starting the timer
+      setIsSvae(false);
     } else {
       clearInterval(intervalId);
       setIntervalId("");
