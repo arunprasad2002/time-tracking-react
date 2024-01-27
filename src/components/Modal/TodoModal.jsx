@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { useGlobalContext } from "../../context/context";
 
 export default function TodoModal({ showModal }) {
-  const { dispatch } = useGlobalContext();
+  const {
+    dispatch,
+    state: { todos },
+  } = useGlobalContext();
   const [todo, setTodo] = useState("");
   return (
     <>
@@ -27,7 +30,7 @@ export default function TodoModal({ showModal }) {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <input
-                    class="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
                     placeholder="Add Todo"
                     onChange={(e) => {
                       setTodo(e.target.value);
@@ -49,7 +52,14 @@ export default function TodoModal({ showModal }) {
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => {
-                      dispatch({ type: "ADD_TODO", payload: { name: todo } });
+                      if (todo.trim().length > 0) {
+                        dispatch({ type: "ADD_TODO", payload: { name: todo } });
+                        dispatch({
+                          type: "ADD_TO_LOCAL_STORAGE",
+                          payload: todos,
+                        });
+                        setTodo("");
+                      }
                     }}
                   >
                     Save

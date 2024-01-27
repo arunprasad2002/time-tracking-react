@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Stopwatch from "./components/Timer/Stopwatch";
 import { useGlobalContext } from "./context/context";
 import TodoModal from "./components/Modal/TodoModal";
@@ -6,7 +6,16 @@ import TodoModal from "./components/Modal/TodoModal";
 const App = () => {
   const {
     state: { showModal, todos },
+    dispatch,
   } = useGlobalContext();
+
+  // Load Todos from local storage on component mount
+  useEffect(() => {
+    const storedTodos = localStorage.getItem("todos");
+    if (storedTodos) {
+      dispatch({ type: "SET_TODOS", payload: JSON.parse(storedTodos) });
+    }
+  }, []);
 
   return (
     <main className="container mt-2">
@@ -17,7 +26,7 @@ const App = () => {
       <h1 className="mt-10 font-bold text-xl text-center w-screen">
         Completed Task
       </h1>
-      <ul className="flex justify-center w-screen mt-5 items-center">
+      <ul className="flex justify-center flex-col space-y-2 w-screen mt-5 items-center">
         {todos &&
           todos.map((item, index) => {
             return (

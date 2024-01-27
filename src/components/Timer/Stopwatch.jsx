@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../UI/Button";
 import { useGlobalContext } from "../../context/context";
 
@@ -11,10 +11,16 @@ export default function App() {
   });
 
   const [isStart, setIstart] = useState(false);
-  const [isPaused, setIsPaused] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
   const [isSave, setIsSvae] = useState(true);
 
   const [intervalId, setIntervalId] = useState();
+
+  useEffect(() => {
+    if (isPaused) {
+      setIsSvae(false);
+    }
+  }, [isPaused, isStart]);
 
   const updateTimer = () => {
     setTime((prev) => {
@@ -64,7 +70,9 @@ export default function App() {
 
   return (
     <div className="App">
-      <h1 className="text-center">HH:mm:ss</h1>
+      <div className="flex justify-center items-center text-xl font-bold">
+        <div>HH : MM : SS</div>
+      </div>
 
       <div className="flex justify-center items-center text-xl font-bold">
         <div>{`${time.hr < 10 ? 0 : ""}${time.hr} : ${time.min < 10 ? 0 : ""}${
@@ -72,14 +80,16 @@ export default function App() {
         } : ${time.sec < 10 ? 0 : ""}${time.sec}`}</div>
       </div>
 
-      <div className="space-x-5 mt-2">
+      <div className="mt-2 flex justify-center items-center space-x-2">
         <Button onClickHandelar={pauseOrResume} disabled={isStart}>
           Start
         </Button>
         <Button onClickHandelar={pauseOrResume} disabled={isPaused}>
           Pause
         </Button>
-        <Button onClickHandelar={showModal}>Save</Button>
+        <Button onClickHandelar={showModal} disabled={isSave}>
+          Save
+        </Button>
       </div>
     </div>
   );

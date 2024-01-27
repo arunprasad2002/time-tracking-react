@@ -14,6 +14,13 @@ const reducer = (state, aciont) => {
 
     case "SHOW_MODAL_SAVE":
       return { ...state, time: aciont.payload, showModal: true };
+
+    case "SET_TODOS":
+      return { ...state, todos: aciont.payload };
+    case "ADD_TO_LOCAL_STORAGE":
+      const todos = state.todos;
+      localStorage.setItem("todos", JSON.stringify(todos));
+      return state;
     default:
       return state;
   }
